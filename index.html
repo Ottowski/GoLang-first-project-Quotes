@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quote API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            text-align: center;
+        }
+        #quote {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        #author {
+            font-size: 20px;
+            color: gray;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Quote Generator</h1>
+    <div id="quote">Click the button to get a quote!</div>
+    <div id="author"></div>
+    <button id="newQuoteBtn">Get Random Quote</button>
+
+    <script>
+        const quoteEl = document.getElementById('quote');
+        const authorEl = document.getElementById('author');
+        const button = document.getElementById('newQuoteBtn');
+
+        button.addEventListener('click', fetchQuote);
+
+        async function fetchQuote() {
+            try {
+                const response = await fetch('http://localhost:9090/quote/random');
+                const data = await response.json();
+                quoteEl.textContent = `"${data.text}"`;
+                authorEl.textContent = `- ${data.author}`;
+            } catch (err) {
+                quoteEl.textContent = "Error fetching quote";
+                authorEl.textContent = "";
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
